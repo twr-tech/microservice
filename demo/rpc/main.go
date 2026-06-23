@@ -26,7 +26,7 @@ type GetUserResp struct {
 func (s *UserService) GetUser(ctx context.Context, req *GetUserReq) (*GetUserResp, error) {
 	return &GetUserResp{
 		ID:   req.ID,
-		Name: "Bob",
+		Name: "test2",
 	}, nil
 }
 

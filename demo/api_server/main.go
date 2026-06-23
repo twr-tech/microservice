@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	app := microservice.New(microservice.DefaultConfig(":8080"))
+	app := microservice.New(microservice.DefaultConfig(":8081"))
 
 	// 全局中间件
 	app.Use(http_server.Recovery(), http_server.Logger(), http_server.CORS())
@@ -19,14 +19,14 @@ func main() {
 	})
 
 	// 路由组 + 鉴权中间件
-	api := app.Group("/api/v1", http_server.Auth("secret-token"))
+	api := app.Group("/api/v1")
 	{
 		api.GET("/users/:id", getUser)
 		api.POST("/users", createUser)
 	}
 
 	// 嵌套路由组
-	admin := api.Group("/admin")
+	admin := api.Group("/admin", http_server.Auth("access_token"))
 	{
 		admin.GET("/stats", func(c *http_server.Context) error {
 			return c.OK(map[string]int{"users": 100, "orders": 500})
@@ -42,7 +42,7 @@ func getUser(c *http_server.Context) error {
 	id := c.Param("id")
 	return c.OK(map[string]string{
 		"id":   id,
-		"name": "Alice",
+		"name": "test1",
 	})
 }
 
@@ -57,7 +57,7 @@ func createUser(c *http_server.Context) error {
 		return c.Error(http.StatusBadRequest, "invalid json body")
 	}
 	return c.OK(map[string]any{
-		"id":    "u-001",
+		"id":    "001",
 		"name":  req.Name,
 		"email": req.Email,
 	})

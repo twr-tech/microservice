@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// HandlerFunc 是业务处理函数签名。
+// HandlerFunc 是业务处理函数。
 type HandlerFunc func(*Context) error
 
 // Context 封装 HTTP 请求与响应，提供统一的 API 接入能力。
@@ -46,17 +46,17 @@ func (c *Context) Param(key string) string {
 	return c.params[key]
 }
 
-// Query 获取 URL 查询参数。
+// Query 获取查询参数。
 func (c *Context) Query(key string) string {
 	return c.Request.URL.Query().Get(key)
 }
 
-// Set 在中间件间传递数据。
+// Set 在context设置数据。
 func (c *Context) Set(key string, value any) {
 	c.keys[key] = value
 }
 
-// Get 获取中间件设置的数据。
+// Get 获取context里设置的数据。
 func (c *Context) Get(key string) (any, bool) {
 	v, ok := c.keys[key]
 	return v, ok
@@ -92,7 +92,7 @@ func (c *Context) String(code int, body string) error {
 	return err
 }
 
-// Status 仅设置 HTTP 状态码。
+// Status 设置 HTTP 状态码。
 func (c *Context) Status(code int) {
 	c.Writer.WriteHeader(code)
 }

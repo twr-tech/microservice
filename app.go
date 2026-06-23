@@ -65,7 +65,7 @@ func (a *App) Run() error {
 		WriteTimeout: a.config.WriteTimeout,
 		IdleTimeout:  a.config.IdleTimeout,
 	}
-	log.Printf("microframe server listening on %s", a.config.Addr)
+	log.Printf("microservice server listening on %s", a.config.Addr)
 	return a.server.ListenAndServe()
 }
 
@@ -84,5 +84,5 @@ func (a *App) Handler() http.Handler {
 
 // String 返回服务地址描述。
 func (a *App) String() string {
-	return fmt.Sprintf("microframe@%s", a.config.Addr)
+	return fmt.Sprintf("microservice@%s", a.config.Addr)
 }

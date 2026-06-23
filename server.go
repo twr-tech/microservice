@@ -31,11 +31,6 @@ func (s *Service) Register(receiver any) error {
 	return s.rpc.RegisterService(s.Name, receiver)
 }
 
-// MountRPC 将模块 RPC 挂载到 HTTP 路由，默认入口 POST {prefix}。
-func (s *Service) MountRPC(prefix string) {
-	s.app.MountRPC(prefix, s.rpc)
-}
-
 // Group 创建该模块的 HTTP 路由组。
 func (s *Service) Group(prefix string, mws ...http_server.Middleware) *http_server.Router {
 	return s.app.Group(prefix, mws...)
